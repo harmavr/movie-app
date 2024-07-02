@@ -1,9 +1,9 @@
-// src/components/Movie.js
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { movieActions } from "../redux/MovieSlice";
 import Modal from "../components/Modal";
+import { Rating, Typography } from "@mui/material";
 
 const Movie = () => {
   const { id } = useParams();
@@ -12,6 +12,9 @@ const Movie = () => {
   const selectedMovie = useSelector((state) => state.movie.selectedMovie);
   const collectionsList = useSelector((state) => state.movie.collectionList);
   const [selectedCollectionId, setSelectedCollectionId] = useState("");
+  const [login, setLogin] = useState(false);
+  const [ratingValue, setRatingValue] = useState(null);
+  const [guestSessionId, setGuestSessionId] = useState("");
   const navigate = useNavigate();
 
   const API_KEY = process.env.REACT_APP_API_KEY;
@@ -52,6 +55,63 @@ const Movie = () => {
 
   const handleCollectionChange = (e) => {
     setSelectedCollectionId(e.target.value);
+  };
+
+  const handleLoginAsAGuest = async () => {
+    try {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/authentication/guest_session/new",
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${API_KEY}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      setGuestSessionId(data.guest_session_id);
+      setLogin(data.success);
+      console.log(data.guest_session_id, data.success);
+    } catch (error) {
+      console.error("Error fetching movie details: ", error);
+    }
+  };
+
+  const handleRateMovie = async (value) => {
+    if (!guestSessionId) {
+      console.error("Guest session ID is missing.");
+      return;
+    }
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/rating?guest_session_id=${guestSessionId}`,
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json;charset=utf-8",
+            Authorization: `Bearer ${API_KEY}`,
+          },
+          body: JSON.stringify({ value }), // Properly stringify the JSON body
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.success) {
+        setRatingValue(value);
+        console.log("Rating submitted successfully:", data);
+      } else {
+        console.error("Rating failed: ", data);
+      }
+    } catch (error) {
+      console.error("Error fetching movie details: ", error);
+    }
   };
 
   const addToCollection = () => {
@@ -96,6 +156,22 @@ const Movie = () => {
             alt={`${selectedMovie.title} poster`}
             style={{ width: "200px" }}
           />
+          <div className="rate">
+            {!login ? (
+              <button onClick={handleLoginAsAGuest}>login as a Guest</button>
+            ) : (
+              <div className="rating">
+                <Typography component="legend">Rate the movie</Typography>
+                <Rating
+                  name="simple-controlled"
+                  value={ratingValue}
+                  onChange={(event, newValue) => {
+                    handleRateMovie(newValue);
+                  }}
+                />
+              </div>
+            )}
+          </div>
           <label htmlFor="collections">Select a collection:</label>
           <select
             id="collections"
