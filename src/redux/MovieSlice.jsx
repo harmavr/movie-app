@@ -18,8 +18,8 @@ const movieSlice = createSlice({
       if (collection) {
         collection.movies.push(movie);
         localStorage.setItem(
-          `collection_${collection.name}`,
-          JSON.stringify(collection)
+          "collectionList",
+          JSON.stringify(state.collectionList)
         );
       }
     },
@@ -44,8 +44,8 @@ const movieSlice = createSlice({
       };
       state.collectionList.push(newCollection);
       localStorage.setItem(
-        `collection_${newCollection.name}`,
-        JSON.stringify(newCollection)
+        "collectionList",
+        JSON.stringify(state.collectionList)
       );
     },
   },

@@ -96,7 +96,7 @@ const Movie = () => {
             "Content-Type": "application/json;charset=utf-8",
             Authorization: `Bearer ${API_KEY}`,
           },
-          body: JSON.stringify({ value }), // Properly stringify the JSON body
+          body: JSON.stringify({ value }),
         }
       );
       if (!response.ok) {
@@ -124,7 +124,6 @@ const Movie = () => {
       );
       dispatch(movieActions.setSelectedMovie(null));
       dispatch(movieActions.closeModal());
-      console.log(collectionsList);
       navigate(-1);
     } else {
       alert("Please select a collection and a movie");

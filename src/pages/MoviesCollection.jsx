@@ -1,22 +1,32 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function MoviesCollection() {
   const { id } = useParams();
-  const collections = useSelector((state) => state.movie.collectionList);
-  const collection = collections.find((col) => col.id === parseInt(id));
+  const [collectionList, setCollectionList] = useState(null);
 
-  if (!collection) {
+  useEffect(() => {
+    const collections = localStorage.getItem("collectionList");
+
+    if (collections) {
+      const parsedCollections = JSON.parse(collections);
+      const foundCollection = parsedCollections.find(
+        (col) => col.id === parseInt(id)
+      );
+      setCollectionList(foundCollection);
+    }
+  }, [id]);
+
+  if (!collectionList) {
     return <p>Collection not found</p>;
   }
   return (
     <div className="collections">
-      <h3>{collection.name}</h3>
+      <h3>{collectionList.name}</h3>
 
-      {collection.movies.length > 0 ? (
+      {collectionList.movies.length > 0 ? (
         <ul>
-          {collection.movies.map((movie) => (
+          {collectionList.movies.map((movie) => (
             <li key={movie.id}>
               <div>
                 <p>{movie.title}</p>
