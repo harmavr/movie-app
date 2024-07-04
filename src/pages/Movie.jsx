@@ -10,7 +10,7 @@ const Movie = () => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.movie.isModalOpen);
   const selectedMovie = useSelector((state) => state.movie.selectedMovie);
-  const collectionsList = useSelector((state) => state.movie.collectionList);
+  const [collectionsList, setCollectionList] = useState([]);
   const [selectedCollectionId, setSelectedCollectionId] = useState("");
   const [login, setLogin] = useState(false);
   const [ratingValue, setRatingValue] = useState(null);
@@ -47,6 +47,11 @@ const Movie = () => {
       dispatch(movieActions.setSelectedMovie(null));
     };
   }, [id, dispatch, API_KEY]);
+
+  useEffect(() => {
+    const colList = JSON.parse(localStorage.getItem("collectionList"));
+    setCollectionList(colList);
+  }, []);
 
   const closeModal = () => {
     dispatch(movieActions.closeModal());
