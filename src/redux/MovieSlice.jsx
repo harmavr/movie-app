@@ -12,14 +12,14 @@ const movieSlice = createSlice({
   reducers: {
     setMovies(state, action) {
       const { collectionId, movie } = action.payload;
-      const collection = state.collectionList.find(
+      const collectionIndex = state.collectionList.findIndex(
         (col) => col.id === parseInt(collectionId)
       );
       console.log(JSON.stringify(state.collectionList));
       if (collectionIndex !== -1) {
         const collection = state.collectionList[collectionIndex];
         if (!collection.movies.some((m) => m.id === movie.id)) {
-        collection.movies.push(movie);
+          collection.movies.push(movie);
         } else {
           console.error(
             `Movie with ID ${movie.id} is already in the collection.`
@@ -55,6 +55,27 @@ const movieSlice = createSlice({
         "collectionList",
         JSON.stringify(state.collectionList)
       );
+    },
+    removeMovie(state, action) {
+      const { movieId } = action.payload;
+
+      const collection = state.collectionList.find((collection) =>
+        collection.movies.some((movie) => movie.id === movieId)
+      );
+
+      if (collection) {
+        collection.movies = collection.movies.filter(
+          (movie) => movie.id !== movieId
+        );
+        localStorage.setItem(
+          "collectionList",
+          JSON.stringify(state.collectionList)
+        );
+      } else {
+        console.error(
+          `No collection found containing the movie with ID: ${movieId}`
+        );
+      }
     },
   },
 });
