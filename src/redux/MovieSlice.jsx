@@ -15,8 +15,16 @@ const movieSlice = createSlice({
       const collection = state.collectionList.find(
         (col) => col.id === parseInt(collectionId)
       );
-      if (collection) {
+      console.log(JSON.stringify(state.collectionList));
+      if (collectionIndex !== -1) {
+        const collection = state.collectionList[collectionIndex];
+        if (!collection.movies.some((m) => m.id === movie.id)) {
         collection.movies.push(movie);
+        } else {
+          console.error(
+            `Movie with ID ${movie.id} is already in the collection.`
+          );
+        }
         localStorage.setItem(
           "collectionList",
           JSON.stringify(state.collectionList)
