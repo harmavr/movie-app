@@ -1,26 +1,62 @@
+import React from "react";
+import "./Pagination.css";
+
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const pagesToShow = 10;
   const pages = [];
-  for (let i = 1; i <= totalPages; i++) {
+
+  let startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+  let endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+
+  if (totalPages > pagesToShow) {
+    if (endPage === totalPages) {
+      startPage = endPage - pagesToShow + 1;
+    } else if (startPage === 1) {
+      endPage = startPage + pagesToShow - 1;
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
+
+  const goToNextSet = () => {
+    const nextSetPage = endPage + 1;
+    onPageChange(nextSetPage);
+  };
+
+  const goToPreviousSet = () => {
+    const previousSetPage = startPage - 1;
+    onPageChange(previousSetPage);
+  };
+
   return (
-    <div style={{ margin: "20px 0" }}>
+    <div className="pagination-container">
+      <button
+        onClick={goToPreviousSet}
+        disabled={startPage === 1}
+        className="pagination-arrow"
+      >
+        {"<"}
+      </button>
       {pages.map((page) => (
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          style={{
-            margin: "0 5px",
-            padding: "5px 10px",
-            backgroundColor: currentPage === page ? "#007bff" : "#e0e0e0",
-            color: currentPage === page ? "white" : "black",
-            border: "none",
-            cursor: "pointer",
-          }}
+          className={`pagination-button ${
+            currentPage === page ? "active" : ""
+          }`}
         >
           {page}
         </button>
       ))}
+      <button
+        onClick={goToNextSet}
+        disabled={endPage === totalPages}
+        className="pagination-arrow"
+      >
+        {">"}
+      </button>
     </div>
   );
 };
