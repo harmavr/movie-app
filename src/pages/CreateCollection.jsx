@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { movieActions } from "../redux/MovieSlice";
 import { useNavigate } from "react-router-dom";
+import "./CreateCollections.css";
 
 export default function CreateCollection() {
   const [formData, setFormData] = useState({
