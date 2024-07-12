@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { movieActions } from "../redux/MovieSlice";
 import Pagination from "../components/Pagination";
+import "./Home.css";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -97,7 +98,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="container">
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -106,10 +107,10 @@ export default function Home() {
           placeholder="Search for movies"
         />
         <button type="submit">Search</button>
-        {error && <div style={{ color: "red" }}>{error}</div>}
+        {error && <div className="error">{error}</div>}
       </form>
 
-      <div style={{ marginTop: "10px" }}>
+      <div className="results-per-page">
         <label htmlFor="resultsPerPage">Results per page: </label>
         <select
           id="resultsPerPage"
@@ -126,26 +127,22 @@ export default function Home() {
       {moviesList.length > 0 && (
         <div>
           <h2>Movie Results</h2>
-          {moviesList.map((movie) => (
-            <div
-              key={movie.id}
-              onClick={() => movieDetails(movie.id)}
-              style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                margin: "10px 0",
-                cursor: "pointer",
-              }}
-            >
-              <h3>{movie.title}</h3>
-              <p>Vote Average: {movie.vote_average}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={`${movie.title} poster`}
-                style={{ width: "200px" }}
-              />
-            </div>
-          ))}
+          <div className="movie-list">
+            {moviesList.map((movie) => (
+              <div
+                key={movie.id}
+                className="movie-item"
+                onClick={() => movieDetails(movie.id)}
+              >
+                <h3>{movie.title}</h3>
+                <p>Vote Average: {movie.vote_average}</p>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={`${movie.title} poster`}
+                />
+              </div>
+            ))}
+          </div>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
