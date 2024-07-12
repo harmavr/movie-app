@@ -1,0 +1,59 @@
+.collections {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.collections h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.collections ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.collections ul img {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.collections ul img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.collections ul li p {
+  margin-bottom: 20px;
+}
+
+.collections li {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.collections li img {
+  width: 200px;
+  cursor: pointer;
+}
+
+.collections li button {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.collections li button:hover {
+  background-color: #c82333;
+}
