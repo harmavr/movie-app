@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { movieActions } from "../redux/MovieSlice";
 
 export default function MoviesCollection() {
   const { id } = useParams();
   const [collectionList, setCollectionList] = useState(null);
   const dispatch = useDispatch();
+
   const collections = useSelector((state) => state.movie.collectionList);
+  const API_KEY = process.env.REACT_APP_API_KEY;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const collections = localStorage.getItem("collectionList");
@@ -33,6 +36,26 @@ export default function MoviesCollection() {
     );
   };
 
+  const movieDetails = async (id) => {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${API_KEY}`,
+          },
+        }
+      );
+      const data = await response.json();
+      dispatch(movieActions.setMovieDetails(data));
+      navigate(`/movie/${id}`);
+    } catch (error) {
+      console.error("Error fetching movie details: ", error);
+    }
+  };
+
   return (
     <div className="collections">
       <h3>{collectionList.name}</h3>
@@ -47,6 +70,7 @@ export default function MoviesCollection() {
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={`${movie.title} poster`}
                   style={{ width: "200px" }}
+                  onClick={() => movieDetails(movie.id)}
                 />
               </div>
               <button onClick={() => removeMovie(movie.id)}> Delete</button>
