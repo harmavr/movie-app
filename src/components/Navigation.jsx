@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Navigation.css";
+import logo from "../assets/logo.jpg";
 
 export default function Navigation() {
   return (
@@ -8,8 +9,13 @@ export default function Navigation() {
       <nav>
         <ul>
           <li>
-            <Link to="/home" className="nav-link">
-              Home Page
+            <Link to="/">
+              <img src={logo} alt="" />
+            </Link>
+          </li>
+          <li>
+            <Link to="/movies" className="nav-link">
+              Movies
             </Link>
           </li>
           <li>
