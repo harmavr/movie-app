@@ -1,9 +1,11 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
-import "./Navigation.css";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import "../styles-components/Navigation.css";
 import logo from "../assets/logo.jpg";
 
 export default function Navigation() {
+  const location = useLocation();
+
   return (
     <>
       <nav>

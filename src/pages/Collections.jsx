@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Collections.css";
+import "../styles-pages/Collections.css";
 
 export default function Collections() {
   const [collectionList, setCollectionList] = useState([]);
@@ -24,10 +24,8 @@ export default function Collections() {
         {collectionList.length > 0 ? (
           <ul>
             {collectionList.map((collection) => (
-              <li key={collection.id}>
-                <p onClick={() => showMovies(collection.id)}>
-                  {collection.name}
-                </p>
+              <li key={collection.id} onClick={() => showMovies(collection.id)}>
+                {collection.name}
               </li>
             ))}
           </ul>

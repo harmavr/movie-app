@@ -1,6 +1,6 @@
 import React from "react";
 import homeImage from "../assets/home-backround.jpg";
-import "./Home.css";
+import "../styles-pages/Home.css";
 export default function Home() {
   return (
     <div className="home-container">

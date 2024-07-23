@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { movieActions } from "../redux/MovieSlice";
 import Pagination from "../components/Pagination";
-import "./Movies.css";
+import "../styles-pages/Movies.css";
 
 export default function Movies() {
   const [input, setInput] = useState("");

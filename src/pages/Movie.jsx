@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { movieActions } from "../redux/MovieSlice";
 import Modal from "../components/Modal";
 import { Rating, Typography } from "@mui/material";
-import "./Movie.css";
+import "../styles-pages/Movie.css";
 
 const Movie = () => {
   const { id } = useParams();

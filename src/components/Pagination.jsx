@@ -1,5 +1,5 @@
 import React from "react";
-import "./Pagination.css";
+import "../styles-components/Pagination.css";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pagesToShow = 10;
