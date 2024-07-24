@@ -10,9 +10,9 @@ export default function Movies() {
   const [moviesList, setMoviesList] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [error, setError] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [resultsPerPage, setResultsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,18 +65,6 @@ export default function Movies() {
     }
   };
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-    fetchMovies(keyword, newPage, resultsPerPage);
-  };
-
-  const handleResultsPerPageChange = (event) => {
-    const newResultsPerPage = parseInt(event.target.value, 10);
-    setResultsPerPage(newResultsPerPage);
-    setCurrentPage(1);
-    fetchMovies(keyword, 1, newResultsPerPage);
-  };
-
   const movieDetails = async (id) => {
     try {
       const response = await fetch(
@@ -97,6 +85,17 @@ export default function Movies() {
     }
   };
 
+  const onChangeResultsPerPage = (e) => {
+    const newResultsPerPage = parseInt(e.target.value);
+    setResultsPerPage(e.target.value);
+    fetchMovies(keyword, 1, newResultsPerPage);
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    fetchMovies(keyword, newPage, resultsPerPage);
+  };
+
   return (
     <div className="container">
       <form onSubmit={handleSearch}>
@@ -115,7 +114,7 @@ export default function Movies() {
         <select
           id="resultsPerPage"
           value={resultsPerPage}
-          onChange={handleResultsPerPageChange}
+          onChange={onChangeResultsPerPage}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
@@ -143,13 +142,13 @@ export default function Movies() {
               </div>
             ))}
           </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
         </div>
       )}
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

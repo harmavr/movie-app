@@ -45,9 +45,10 @@ body {
   cursor: pointer;
 }
 
-.collections li p:hover {
+.collections li:hover {
   background-color: #e2e6ea;
   transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .collections li p:active {

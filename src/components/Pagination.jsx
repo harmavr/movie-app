@@ -19,7 +19,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
-
   const goToNextSet = () => {
     const nextSetPage = endPage + 1;
     onPageChange(nextSetPage);
@@ -39,17 +38,19 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       >
         {"<"}
       </button>
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => onPageChange(page)}
-          className={`pagination-button ${
-            currentPage === page ? "active" : ""
-          }`}
-        >
-          {page}
-        </button>
-      ))}
+      {pages.map((page) => {
+        return (
+          <button
+            key={page}
+            onClick={() => onPageChange(page)}
+            className={`pagination-button ${
+              currentPage === page ? "active" : ""
+            }`}
+          >
+            {page}
+          </button>
+        );
+      })}
       <button
         onClick={goToNextSet}
         disabled={endPage === totalPages}
