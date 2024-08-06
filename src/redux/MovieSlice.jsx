@@ -77,6 +77,20 @@ const movieSlice = createSlice({
         );
       }
     },
+    removeCollection(state, action) {
+      const { collectionId } = action.payload;
+
+      const collectionFound = state.collectionList.find(
+        (collection) => collection.id === collectionId
+      );
+
+      if (collectionFound) {
+        const collection = state.collectionList.filter((collection) => {
+          return collection.id !== collectionId;
+        });
+        localStorage.setItem("collectionList", JSON.stringify(collection));
+      }
+    },
   },
 });
 
