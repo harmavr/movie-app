@@ -13,6 +13,7 @@ export default function Movies() {
   const [resultsPerPage, setResultsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [clickInit, setClickInit] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,10 +38,12 @@ export default function Movies() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+
     if (validate(keyword)) {
       setCurrentPage(1);
       await fetchMovies(keyword, 1, resultsPerPage);
     }
+    setClickInit(true);
   };
 
   const fetchMovies = async (query, page, resultsPerPage) => {
@@ -144,11 +147,13 @@ export default function Movies() {
           </div>
         </div>
       )}
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+      {clickInit && (
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }
